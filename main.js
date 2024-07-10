@@ -131,16 +131,15 @@ document.addEventListener('DOMContentLoaded', function () {
     const Main = document.getElementById('main');
 
     for (let x in Products) {
-        if (Products[x].estoque) {
-            let Div = document.createElement('div');
-            let SpanName = document.createElement('span');
-            let SpanValue = document.createElement('span');
-            SpanName.textContent = Products[x].nome.toLowerCase();
-            SpanValue.textContent = Products[x].valor.toFixed(2).replace('.', ',');
-            Div.appendChild(SpanName)
-            Div.appendChild(SpanValue)
-            Main.appendChild(Div)    
-        }
+        let Div = document.createElement('div');
+        let SpanName = document.createElement('span');
+        let SpanValue = document.createElement('span');
+        Div.classList.add(Products[x].estoque ? 'DivTrue' : 'DivFalse');
+        SpanName.textContent = Products[x].nome.toLowerCase();
+        SpanValue.textContent = Products[x].valor.toFixed(2).replace('.', ',');
+        Div.appendChild(SpanName)
+        Div.appendChild(SpanValue)
+        Main.appendChild(Div)
     }
 
 })
@@ -152,36 +151,64 @@ function SearchItens(InpValue) {
     // console.log(InpValue)
     InpValue = InpValue.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
 
-    if (InpValue != '') {
+    if (InpValue != '' && InpValue != 'true' && InpValue != 'false') {
         for (let key in Products) {
             let NameProduct = Products[key].nome.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
-            if (InpValue != '' && NameProduct.startsWith(InpValue) && Products[key].estoque) {
-                
+            if (NameProduct.startsWith(InpValue)) {
                 let Div = document.createElement('div');
                 let SpanName = document.createElement('span');
                 let SpanValue = document.createElement('span');
+                Div.classList.add(Products[key].estoque ? 'DivTrue' : 'DivFalse');
                 SpanName.textContent = Products[key].nome.toLowerCase();
                 SpanValue.textContent = Products[key].valor.toFixed(2).replace('.', ',');
                 Div.appendChild(SpanName)
                 Div.appendChild(SpanValue)
                 Main.appendChild(Div)
                 // console.log(Products[key].nome)
-    
+            }
+        }
+    }
+    else if (InpValue == 'true') {
+        for (let key in Products) {
+            if (Products[key].estoque) {
+                let Div = document.createElement('div');
+                let SpanName = document.createElement('span');
+                let SpanValue = document.createElement('span');
+                Div.classList.add('DivTrue');
+                SpanName.textContent = Products[key].nome.toLowerCase();
+                SpanValue.textContent = Products[key].valor.toFixed(2).replace('.', ',');
+                Div.appendChild(SpanName)
+                Div.appendChild(SpanValue)
+                Main.appendChild(Div)
+            }
+        }
+    }
+    else if (InpValue == 'false') {
+        for (let key in Products) {
+            if (!Products[key].estoque) {
+                let Div = document.createElement('div');
+                let SpanName = document.createElement('span');
+                let SpanValue = document.createElement('span');
+                Div.classList.add('DivFalse');
+                SpanName.textContent = Products[key].nome.toLowerCase();
+                SpanValue.textContent = Products[key].valor.toFixed(2).replace('.', ',');
+                Div.appendChild(SpanName)
+                Div.appendChild(SpanValue)
+                Main.appendChild(Div)
             }
         }
     }
     else {
         for (let x in Products) {
-            if (Products[x].estoque) {
-                let Div = document.createElement('div');
-                let SpanName = document.createElement('span');
-                let SpanValue = document.createElement('span');
-                SpanName.textContent = Products[x].nome.toLowerCase();
-                SpanValue.textContent = Products[x].valor.toFixed(2).replace('.', ',');
-                Div.appendChild(SpanName)
-                Div.appendChild(SpanValue)
-                Main.appendChild(Div)
-            }
+            let Div = document.createElement('div');
+            let SpanName = document.createElement('span');
+            let SpanValue = document.createElement('span');
+            Div.classList.add(Products[x].estoque ? 'DivTrue' : 'DivFalse');
+            SpanName.textContent = Products[x].nome.toLowerCase();
+            SpanValue.textContent = Products[x].valor.toFixed(2).replace('.', ',');
+            Div.appendChild(SpanName)
+            Div.appendChild(SpanValue)
+            Main.appendChild(Div)
         }
     }
 
